@@ -123,6 +123,26 @@
             `);
           });
         });
+
+        // カード生成後にアニメーション監視を再実行
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const siblings = entry.target.parentElement
+                ? [...entry.target.parentElement.children].filter(el =>
+                    el.classList.contains('slide-left') || el.classList.contains('slide-right'))
+                : [];
+              const idx = siblings.indexOf(entry.target);
+              entry.target.style.transitionDelay = `${idx * 0.1}s`;
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.card.slide-left, .card.slide-right').forEach(el => {
+          observer.observe(el);
+        });
       });
   </script>
 </body>

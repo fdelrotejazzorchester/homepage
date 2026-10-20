@@ -99,6 +99,20 @@
             `<p style="color:rgba(240,236,228,.75);">${p}</p>`
           ).join('')
         );
+
+        // コンテンツ生成後にアニメーションを再適用
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.slide-left, .slide-right').forEach(el => {
+          observer.observe(el);
+        });
       });
   </script>
 </body>
