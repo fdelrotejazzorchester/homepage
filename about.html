@@ -35,41 +35,13 @@
   <section class="section">
     <div class="container">
       <div class="about-content">
-        <!-- Left: text -->
-        <div class="slide-left">
-          <h2 style="font-size:1.6rem;margin-bottom:20px;">私たちについて</h2>
-          <p>
-            Fdel Röte Jazz Orchester(仮)は、某大学OB・OGバンドです。
-            2024年に運命的な出会いを果たしました。
-          </p>
-          <p>
-            サクソフォン、トランペット、トロンボーンの全てが主役級。
-            そしてベース・ピアノ・ドラムが構築する緊密なリズムの格子。
-            3年間でやり残したことを全てやり切る勢いです。
-          </p>
-
-          <ul class="about-highlights">
-            <li>2024年5月：運命的な出会いを果たす。</li>
-            <li>2026年5月：このままだとやりたい曲を全てできないことに気付く。</li>
-            <li>2026年6月：とりあえずノリと勢いで会場を押さえて、開催だけ決定。</li>
-          </ul>
+        <!-- Left: text (JSONから動的生成) -->
+        <div class="slide-left" id="about-left">
         </div>
 
-        <!-- Right: image + philosophy -->
-        <div class="slide-right">
+        <!-- Right: image + philosophy (JSONから動的生成) -->
+        <div class="slide-right" id="about-right">
           <div class="dummy-img" style="aspect-ratio:1;margin-bottom:32px;">[ Band Photo — Rehearsal ]</div>
-
-          <h2 style="font-size:1.2rem;margin-bottom:16px;">Philosophy</h2>
-          <p style="color:rgba(240,236,228,.75);">
-            音楽は演奏者の手を離れた瞬間、聴衆のものになります。
-            私たちはその「手渡し」の瞬間を最も大切にしています。
-            ステージ上での即興は計算された偶然であり、
-            観客との対話によって毎回異なる形をとります。
-          </p>
-          <p style="color:rgba(240,236,228,.75);">
-            黒・深紅・金——これは私たちのビジュアルを彩る三色であると同時に、
-            夜の静寂、情熱の燃焼、そして音楽が放つ輝きを象徴しています。
-          </p>
         </div>
       </div>
     </div>
@@ -105,5 +77,29 @@
   </footer>
 
   <script src="script.js"></script>
+  <script>
+    // about.json を読み込んでページに反映
+    fetch('data/about.json')
+      .then(r => r.json())
+      .then(d => {
+        // 左カラム：見出し・本文・ハイライト
+        const left = document.getElementById('about-left');
+        left.innerHTML =
+          `<h2 style="font-size:1.6rem;margin-bottom:20px;">${d.heading}</h2>` +
+          d.paragraphs.map(p => `<p>${p}</p>`).join('') +
+          `<ul class="about-highlights">` +
+          d.highlights.map(h => `<li>${h}</li>`).join('') +
+          `</ul>`;
+
+        // 右カラム：フィロソフィー
+        const right = document.getElementById('about-right');
+        right.insertAdjacentHTML('beforeend',
+          `<h2 style="font-size:1.2rem;margin-bottom:16px;">${d.philosophy_heading}</h2>` +
+          d.philosophy_paragraphs.map(p =>
+            `<p style="color:rgba(240,236,228,.75);">${p}</p>`
+          ).join('')
+        );
+      });
+  </script>
 </body>
 </html>

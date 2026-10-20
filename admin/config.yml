@@ -1,0 +1,88 @@
+backend:
+  name: git-gateway
+  branch: main
+
+locale: ja
+media_folder: images
+public_folder: images
+editor:
+  preview: false
+
+collections:
+
+  # ---- About ページ ----
+  - name: about
+    label: About（バンド紹介）
+    files:
+      - name: about
+        label: バンド紹介テキスト
+        file: data/about.json
+        fields:
+          - label: 見出し
+            name: heading
+            widget: string
+          - label: 本文（段落ごとに追加）
+            name: paragraphs
+            widget: list
+            field:
+              label: 段落
+              name: paragraph
+              widget: text
+          - label: 沿革（箇条書き）
+            name: highlights
+            widget: list
+            field:
+              label: 項目
+              name: item
+              widget: string
+          - label: Philosophy 見出し
+            name: philosophy_heading
+            widget: string
+          - label: Philosophy 本文
+            name: philosophy_paragraphs
+            widget: list
+            field:
+              label: 段落
+              name: paragraph
+              widget: text
+
+  # ---- Members ページ ----
+  - name: members
+    label: Members（メンバー紹介）
+    files:
+      - name: saxophone
+        label: Saxophone セクション
+        file: data/members.json
+        fields:
+          - label: Saxophone メンバー
+            name: saxophone
+            widget: list
+            fields:
+              - { label: 名前, name: name, widget: string }
+              - { label: パート, name: role, widget: string }
+              - { label: 紹介文, name: bio, widget: text }
+              - { label: 写真, name: photo, widget: image, required: false }
+          - label: Trumpet メンバー
+            name: trumpet
+            widget: list
+            fields:
+              - { label: 名前, name: name, widget: string }
+              - { label: パート, name: role, widget: string }
+              - { label: 紹介文, name: bio, widget: text }
+              - { label: 写真, name: photo, widget: image, required: false }
+          - label: Trombone メンバー
+            name: trombone
+            widget: list
+            fields:
+              - { label: 名前, name: name, widget: string }
+              - { label: パート, name: role, widget: string }
+              - { label: 紹介文, name: bio, widget: text }
+              - { label: 写真, name: photo, widget: image, required: false }
+          - label: Rhythm メンバー
+            name: rhythm
+            widget: list
+            fields:
+              - { label: 名前, name: name, widget: string }
+              - { label: パート, name: role, widget: string }
+              - { label: 紹介文, name: bio, widget: text }
+              - { label: 写真, name: photo, widget: image, required: false }
