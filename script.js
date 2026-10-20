@@ -107,7 +107,7 @@
   if (!form) return;
 
   // ★ ここに正式なメールアドレスを入力してください
-  const CONTACT_EMAIL = 'YOUR_EMAIL@gmail.com';
+  const CONTACT_EMAIL = 'fdelrotejazzorchester@gmail.com';
 
   form.addEventListener('submit', e => {
     e.preventDefault();
