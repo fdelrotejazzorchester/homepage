@@ -125,7 +125,7 @@
     const mailBody =
       `お名前: ${name}\n` +
       `\n` +
-      `【メッセージ】\n` +
+      `【本文】\n` +
       `${msg}`;
 
     const mailto = `mailto:${CONTACT_EMAIL}` +
