@@ -100,27 +100,43 @@
   }, { passive: true });
 })();
 
-/* ---- Contact form (static demo) ---- */
+/* ---- Contact form (mailto) ---- */
 (function () {
   const form   = document.getElementById('contact-form');
   const status = document.getElementById('form-status');
   if (!form) return;
 
+  // ★ ここに正式なメールアドレスを入力してください
+  const CONTACT_EMAIL = 'YOUR_EMAIL@gmail.com';
+
   form.addEventListener('submit', e => {
     e.preventDefault();
-    const name  = form.querySelector('#name').value.trim();
-    const email = form.querySelector('#email').value.trim();
-    const msg   = form.querySelector('#message').value.trim();
+    const name    = form.querySelector('#name').value.trim();
+    const email   = form.querySelector('#email').value.trim();
+    const subject = form.querySelector('#subject').value.trim();
+    const msg     = form.querySelector('#message').value.trim();
 
     if (!name || !email || !msg) {
-      status.textContent = 'すべての項目を入力してください。';
+      status.textContent = 'お名前・メールアドレス・メッセージは必須項目です。';
       status.className = 'form-status error';
       return;
     }
 
-    // Demo: simulate success (no actual submission)
-    status.textContent = 'お問い合わせを受け付けました。ありがとうございます。';
+    const mailSubject = subject || 'お問い合わせ';
+    const mailBody =
+      `お名前: ${name}\n` +
+      `メールアドレス: ${email}\n` +
+      `\n` +
+      `【メッセージ】\n` +
+      `${msg}`;
+
+    const mailto = `mailto:${CONTACT_EMAIL}` +
+      `?subject=${encodeURIComponent(mailSubject)}` +
+      `&body=${encodeURIComponent(mailBody)}`;
+
+    window.location.href = mailto;
+
+    status.textContent = 'メールアプリが開きます。内容を確認の上、送信してください。';
     status.className = 'form-status success';
-    form.reset();
   });
 })();
