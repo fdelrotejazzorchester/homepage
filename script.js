@@ -112,12 +112,11 @@
   form.addEventListener('submit', e => {
     e.preventDefault();
     const name    = form.querySelector('#name').value.trim();
-    const email   = form.querySelector('#email').value.trim();
     const subject = form.querySelector('#subject').value.trim();
     const msg     = form.querySelector('#message').value.trim();
 
-    if (!name || !email || !msg) {
-      status.textContent = 'お名前・メールアドレス・メッセージは必須項目です。';
+    if (!name || !msg) {
+      status.textContent = 'お名前・メッセージは必須項目です。';
       status.className = 'form-status error';
       return;
     }
@@ -125,7 +124,6 @@
     const mailSubject = subject || 'お問い合わせ';
     const mailBody =
       `お名前: ${name}\n` +
-      `メールアドレス: ${email}\n` +
       `\n` +
       `【メッセージ】\n` +
       `${msg}`;
