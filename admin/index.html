@@ -5,6 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>管理画面 — Fdel Röte Jazz Orchester</title>
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script>
+    // パスワードリセット・招待リンクのトークンを /admin/ で処理する
+    if (window.location.hash && window.location.hash.includes('invite_token') || 
+        window.location.hash && window.location.hash.includes('recovery_token') ||
+        window.location.hash && window.location.hash.includes('confirmation_token')) {
+      // すでに /admin/ にいる場合はそのまま
+    } else if (window.netlifyIdentity) {
+      window.netlifyIdentity.on('init', user => {
+        if (!user) {
+          window.netlifyIdentity.on('login', () => {
+            document.location.href = '/admin/';
+          });
+        }
+      });
+    }
+  </script>
 </head>
 <body>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
