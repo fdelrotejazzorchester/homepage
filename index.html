@@ -224,26 +224,30 @@
           <div class="flyer-area slide-left">
             <img src="${next.flyer || ''}" alt="${next.title} フライヤー" class="flyer-img"
                  onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-            <div class="flyer-placeholder" style="${next.flyer ? '' : 'display:flex;'}">[ Flyer Coming Soon ]</div>
+            <div class="flyer-placeholder" style="${next.flyer ? '' : 'display:flex;'}">FLYER COMING SOON</div>
           </div>
-          <div class="slide-right">
-            <ul class="live-list">
-              <li class="live-item">
-                <div class="live-date">
-                  <span class="month">${next.month}</span>
-                  <div class="day">${next.day}</div>
-                  <span class="month">${next.year}</span>
-                </div>
-                <div class="live-info">
-                  <h3>${next.title}</h3>
-                  <p class="venue">${next.venue}</p>
-                  <p>Open ${next.open} / Start ${next.start} ｜ Charge ${next.charge}</p>
-                </div>
-              </li>
-            </ul>
-            <div style="margin-top:32px;">
-              <a href="live.html" class="btn btn-crimson">All Dates</a>
-            </div>
+          <div class="live-detail slide-right">
+            <h2 class="live-detail-title">${next.title}</h2>
+            <div class="live-detail-divider"></div>
+            <dl class="live-detail-table">
+              <div class="live-detail-row">
+                <dt>日時</dt>
+                <dd>${next.year}年${next.month} ${next.day}日</dd>
+              </div>
+              <div class="live-detail-row">
+                <dt>開場 / 開演</dt>
+                <dd>Open ${next.open} / Start ${next.start}</dd>
+              </div>
+              <div class="live-detail-row">
+                <dt>会場</dt>
+                <dd>${next.venue}${next.venue_sub ? `<br><span style="color:var(--gray);font-size:.9em;">${next.venue_sub}</span>` : ''}</dd>
+              </div>
+              <div class="live-detail-row">
+                <dt>チケット</dt>
+                <dd><span class="live-ticket-badge">Charge ${next.charge}</span></dd>
+              </div>
+            </dl>
+            <a href="live.html" class="btn btn-crimson" style="margin-top:40px;display:inline-block;">All Dates</a>
           </div>
         `;
 
