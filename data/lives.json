@@ -13,15 +13,5 @@
       "flyer": "images/flyer-2027.jpg"
     }
   ],
-  "past": [
-    {
-      "date": "2025-11-08",
-      "month": "Nov",
-      "day": "08",
-      "year": "2025",
-      "title": "Amber Sessions Vol.8",
-      "venue": "Club Röte — 架空市 南通り",
-      "note": "終演済み"
-    }
-  ]
+  "past": []
 }
