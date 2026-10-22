@@ -35,7 +35,12 @@
         <span class="accent" style="font-size:1.3em;line-height:1;">F</span>del Röte<br>Jazz Orchester
       </h1>
       <p class="hero-tagline">Basie style</p>
-      <a href="about.html" class="btn">Discover</a>
+      <a href="about.html" class="btn" id="hero-cta">Discover</a>
+      <div id="hero-live" style="display:none;text-align:center;">
+        <p id="hero-live-date" style="font-size:.85rem;letter-spacing:.15em;color:var(--gold);margin-bottom:8px;"></p>
+        <p id="hero-live-title" style="font-size:1rem;color:var(--light);margin-bottom:20px;"></p>
+        <a href="live.html" class="btn">Live Info</a>
+      </div>
     </div>
     <div class="scroll-hint">scroll</div>
   </section>
@@ -198,6 +203,35 @@
   </footer>
 
   <script src="script.js"></script>
+  <script>
+    // ヒーローのCTA切り替え
+    // ★ ライブ予定を追加・変更する場合はここを編集してください
+    const UPCOMING_LIVES = [
+      {
+        date: '2027-03-27',          // YYYY-MM-DD形式
+        label: 'Mar 27, 2027',       // 表示用日付
+        title: 'Live 2027',          // イベント名
+      }
+    ];
+
+    (function () {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const next = UPCOMING_LIVES
+        .map(l => ({ ...l, d: new Date(l.date) }))
+        .filter(l => l.d >= today)
+        .sort((a, b) => a.d - b.d)[0];
+
+      if (next) {
+        document.getElementById('hero-cta').style.display = 'none';
+        const liveEl = document.getElementById('hero-live');
+        document.getElementById('hero-live-date').textContent = next.label;
+        document.getElementById('hero-live-title').textContent = next.title;
+        liveEl.style.display = 'block';
+      }
+    })();
+  </script>
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <script>
     // パスワードリセット・招待リンクを /admin/ にリダイレクト
