@@ -70,33 +70,8 @@
     <div class="container">
       <h2 class="section-title">Upcoming Live</h2>
       <div class="divider"></div>
-      <div class="upcoming-live-layout">
-        <!-- フライヤー -->
-        <div class="flyer-area slide-left">
-          <img src="images/flyer-2027.jpg" alt="Live 2027 フライヤー" class="flyer-img"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-          <div class="flyer-placeholder">[ Flyer Coming Soon ]</div>
-        </div>
-        <!-- ライブ情報 -->
-        <div class="slide-right">
-          <ul class="live-list">
-            <li class="live-item">
-              <div class="live-date">
-                <span class="month">Mar</span>
-                <div class="day">27</div>
-                <span class="month">2027</span>
-              </div>
-              <div class="live-info">
-                <h3>Live 2027</h3>
-                <p class="venue">JB.STUDIO ROUTE23 / JB HALL — 名古屋市 南区</p>
-                <p>Open 未定 / Start 未定 ｜ Charge ¥1,000 + 1drink</p>
-              </div>
-            </li>
-          </ul>
-          <div style="margin-top:32px;">
-            <a href="live.html" class="btn btn-crimson">All Dates</a>
-          </div>
-        </div>
+      <div class="upcoming-live-layout" id="upcoming-live-layout">
+        <!-- JSONから動的生成 -->
       </div>
     </div>
   </section>
@@ -215,33 +190,74 @@
 
   <script src="script.js"></script>
   <script>
-    // ヒーローのCTA切り替え
-    // ★ ライブ予定を追加・変更する場合はここを編集してください
-    const UPCOMING_LIVES = [
-      {
-        date: '2027-03-27',          // YYYY-MM-DD形式
-        label: 'Mar 27, 2027',       // 表示用日付
-        title: 'Live 2027',          // イベント名
-      }
-    ];
+    // lives.json を読み込んでトップページのライブ情報を表示
+    fetch('data/lives.json')
+      .then(r => r.json())
+      .then(data => {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
 
-    (function () {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
+        // 直近の1件を取得
+        const next = (data.upcoming || [])
+          .filter(l => new Date(l.date) >= today)
+          .sort((a, b) => new Date(a.date) - new Date(b.date))[0];
 
-      const next = UPCOMING_LIVES
-        .map(l => ({ ...l, d: new Date(l.date) }))
-        .filter(l => l.d >= today)
-        .sort((a, b) => a.d - b.d)[0];
+        // ヒーローCTA切り替え
+        if (next) {
+          document.getElementById('hero-cta').style.display = 'none';
+          document.getElementById('hero-live-date').textContent =
+            `${next.month} ${next.day}, ${next.year}`;
+          document.getElementById('hero-live-title').textContent = next.title;
+          document.getElementById('hero-live').style.display = 'block';
+        }
 
-      if (next) {
-        document.getElementById('hero-cta').style.display = 'none';
-        const liveEl = document.getElementById('hero-live');
-        document.getElementById('hero-live-date').textContent = next.label;
-        document.getElementById('hero-live-title').textContent = next.title;
-        liveEl.style.display = 'block';
-      }
-    })();
+        // Upcoming Liveセクション
+        const layout = document.getElementById('upcoming-live-layout');
+        if (!layout) return;
+
+        if (!next) {
+          layout.innerHTML = '<p style="color:var(--gray);text-align:center;">現在予定されているライブはありません。</p>';
+          return;
+        }
+
+        layout.innerHTML = `
+          <div class="flyer-area slide-left">
+            <img src="${next.flyer || ''}" alt="${next.title} フライヤー" class="flyer-img"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+            <div class="flyer-placeholder" style="${next.flyer ? '' : 'display:flex;'}">[ Flyer Coming Soon ]</div>
+          </div>
+          <div class="slide-right">
+            <ul class="live-list">
+              <li class="live-item">
+                <div class="live-date">
+                  <span class="month">${next.month}</span>
+                  <div class="day">${next.day}</div>
+                  <span class="month">${next.year}</span>
+                </div>
+                <div class="live-info">
+                  <h3>${next.title}</h3>
+                  <p class="venue">${next.venue}</p>
+                  <p>Open ${next.open} / Start ${next.start} ｜ Charge ${next.charge}</p>
+                </div>
+              </li>
+            </ul>
+            <div style="margin-top:32px;">
+              <a href="live.html" class="btn btn-crimson">All Dates</a>
+            </div>
+          </div>
+        `;
+
+        // アニメーション再適用
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.15 });
+        layout.querySelectorAll('.slide-left, .slide-right').forEach(el => observer.observe(el));
+      });
   </script>
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <script>

@@ -34,42 +34,16 @@
   <section class="section">
     <div class="container">
 
-      <h2 class="section-title">2027 Schedule</h2>
+      <h2 class="section-title">Upcoming</h2>
       <div class="divider"></div>
-
-      <ul class="live-list">
-
-        <li class="live-item slide-up">
-          <div class="live-date">
-            <span class="month">Mar</span>
-            <div class="day">27</div>
-            <span class="month">2027</span>
-          </div>
-          <div class="live-info">
-            <h3>Live 2027</h3>
-            <p class="venue">JB.STUDIO ROUTE23 / JB HALL /  — 名古屋市 南区</p>
-            <p>Open 未定 / Start 未定 ｜ Charge ¥1,000 + 1drink</p>
-          </div>
-        </li>
+      <ul class="live-list" id="live-upcoming">
+        <li style="color:var(--gray);">読み込み中...</li>
       </ul>
 
-      <!-- Past -->
       <h2 class="section-title mt-32" style="margin-top:80px;">Past Performances</h2>
       <div class="divider"></div>
-
-      <ul class="live-list">
-        <li class="live-item slide-up hidden-live" style="opacity:.6;">
-          <div class="live-date">
-            <span class="month">Nov</span>
-            <div class="day">08</div>
-            <span class="month">2025</span>
-          </div>
-          <div class="live-info">
-            <h3>Amber Sessions Vol.8</h3>
-            <p class="venue">Club Röte — 架空市 南通り</p>
-            <p>終演済み</p>
-          </div>
-        </li>
+      <ul class="live-list" id="live-past">
+        <li style="color:var(--gray);">読み込み中...</li>
       </ul>
 
     </div>
@@ -105,5 +79,52 @@
   </footer>
 
   <script src="script.js"></script>
+  <script>
+    function renderLiveItem(l, isPast) {
+      return `
+        <li class="live-item slide-up" ${isPast ? 'style="opacity:.6;"' : ''}>
+          <div class="live-date">
+            <span class="month">${l.month}</span>
+            <div class="day">${l.day}</div>
+            <span class="month">${l.year}</span>
+          </div>
+          <div class="live-info">
+            <h3>${l.title}</h3>
+            <p class="venue">${l.venue}</p>
+            <p>${isPast ? (l.note || '終演済み') : `Open ${l.open} / Start ${l.start} ｜ Charge ${l.charge}`}</p>
+          </div>
+        </li>`;
+    }
+
+    fetch('data/lives.json')
+      .then(r => r.json())
+      .then(data => {
+        const upcomingEl = document.getElementById('live-upcoming');
+        const pastEl = document.getElementById('live-past');
+
+        if (data.upcoming && data.upcoming.length) {
+          upcomingEl.innerHTML = data.upcoming.map(l => renderLiveItem(l, false)).join('');
+        } else {
+          upcomingEl.innerHTML = '<li style="color:var(--gray);">現在予定されているライブはありません。</li>';
+        }
+
+        if (data.past && data.past.length) {
+          pastEl.innerHTML = [...data.past].reverse().map(l => renderLiveItem(l, true)).join('');
+        } else {
+          pastEl.innerHTML = '<li style="color:var(--gray);">過去の公演はありません。</li>';
+        }
+
+        // アニメーション再適用
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.live-item').forEach(el => observer.observe(el));
+      });
+  </script>
 </body>
 </html>

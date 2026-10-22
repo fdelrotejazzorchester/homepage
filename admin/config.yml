@@ -46,7 +46,39 @@ collections:
               name: paragraph
               widget: text
 
-  # ---- Members ページ ----
+  # ---- Live 情報 ----
+  - name: lives
+    label: Live（ライブ情報）
+    files:
+      - name: lives
+        label: ライブスケジュール
+        file: data/lives.json
+        fields:
+          - label: Upcoming（予定）
+            name: upcoming
+            widget: list
+            fields:
+              - { label: 日付 (YYYY-MM-DD), name: date, widget: string }
+              - { label: 月 (例:Mar), name: month, widget: string }
+              - { label: 日 (例:27), name: day, widget: string }
+              - { label: 年 (例:2027), name: year, widget: string }
+              - { label: イベント名, name: title, widget: string }
+              - { label: 会場, name: venue, widget: string }
+              - { label: 開場時間, name: open, widget: string, default: "未定" }
+              - { label: 開演時間, name: start, widget: string, default: "未定" }
+              - { label: 料金, name: charge, widget: string, default: "¥1,000 + 1drink" }
+              - { label: フライヤー画像, name: flyer, widget: image, required: false }
+          - label: Past（過去公演）
+            name: past
+            widget: list
+            fields:
+              - { label: 日付 (YYYY-MM-DD), name: date, widget: string }
+              - { label: 月 (例:Nov), name: month, widget: string }
+              - { label: 日 (例:08), name: day, widget: string }
+              - { label: 年 (例:2025), name: year, widget: string }
+              - { label: イベント名, name: title, widget: string }
+              - { label: 会場, name: venue, widget: string }
+              - { label: 備考, name: note, widget: string, default: "終演済み" }
   - name: members
     label: Members（メンバー紹介）
     files:
