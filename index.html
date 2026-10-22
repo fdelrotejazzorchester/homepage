@@ -70,22 +70,33 @@
     <div class="container">
       <h2 class="section-title">Upcoming Live</h2>
       <div class="divider"></div>
-      <ul class="live-list">
-        <li class="live-item slide-up">
-          <div class="live-date">
-            <span class="month">Mar</span>
-            <div class="day">27</div>
-            <span class="month">2027</span>
+      <div class="upcoming-live-layout">
+        <!-- フライヤー -->
+        <div class="flyer-area slide-left">
+          <img src="images/flyer-2027.jpg" alt="Live 2027 フライヤー" class="flyer-img"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+          <div class="flyer-placeholder">[ Flyer Coming Soon ]</div>
+        </div>
+        <!-- ライブ情報 -->
+        <div class="slide-right">
+          <ul class="live-list">
+            <li class="live-item">
+              <div class="live-date">
+                <span class="month">Mar</span>
+                <div class="day">27</div>
+                <span class="month">2027</span>
+              </div>
+              <div class="live-info">
+                <h3>Live 2027</h3>
+                <p class="venue">JB.STUDIO ROUTE23 / JB HALL — 名古屋市 南区</p>
+                <p>Open 未定 / Start 未定 ｜ Charge ¥1,000 + 1drink</p>
+              </div>
+            </li>
+          </ul>
+          <div style="margin-top:32px;">
+            <a href="live.html" class="btn btn-crimson">All Dates</a>
           </div>
-          <div class="live-info">
-            <h3>Live 2027</h3>
-            <p class="venue">JB.STUDIO ROUTE23 / JB HALL — 名古屋市 南区</p>
-            <p>Open 未定 / Start 未定 ｜ Charge ¥1,000 + 1drink</p>
-          </div>
-        </li>
-      </ul>
-      <div style="text-align:center;margin-top:40px;">
-        <a href="live.html" class="btn btn-crimson">All Dates</a>
+        </div>
       </div>
     </div>
   </section>

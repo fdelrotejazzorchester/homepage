@@ -418,6 +418,44 @@ h1, h2, h3, h4 { font-family: var(--font-serif); color: var(--gold); }
 /* ---- Live ---- */
 .live-list { list-style: none; display: flex; flex-direction: column; gap: 24px; }
 
+/* ---- Upcoming Live フライヤーレイアウト ---- */
+.upcoming-live-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.flyer-area {
+  position: relative;
+}
+
+.flyer-img {
+  width: 100%;
+  border: 1px solid rgba(201,168,76,.2);
+  border-radius: 4px;
+  display: block;
+}
+
+.flyer-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 3/4;
+  background: rgba(255,255,255,.03);
+  border: 1px dashed rgba(201,168,76,.25);
+  border-radius: 4px;
+  color: var(--gray);
+  font-size: .85rem;
+  letter-spacing: .1em;
+}
+
+@media (max-width: 700px) {
+  .upcoming-live-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
 .live-item {
   display: grid;
   grid-template-columns: 110px 1fr;
